@@ -3,7 +3,10 @@ class AdminUser < ActiveRecord::Base
   # To configure a different table name:
   # self.table_name = "admin_users"
 
-  has_secure_password # this one line does many things for you (see notes)
+  # has_secure_password # this one line does many things for you (see notes)
+  has_secure_password validations: false # This is the key to the solution
+  validates :password, length: { minimum: 6 }
+  validates :password, presence: true, on: :create
 
   # RELATIONSHIPS
   has_and_belongs_to_many :pages
@@ -47,6 +50,10 @@ class AdminUser < ActiveRecord::Base
     end
   end
 
+  def name
+    "#{first_name} #{last_name}"
+  end
+
   # Errors not related to a specific attribute
   # can be added to the errors[:base] which is also known as 'the base error object'
   def no_new_users_on_saturday
@@ -55,4 +62,6 @@ class AdminUser < ActiveRecord::Base
     end
   end
 
+  # SCOPES
+  scope :sorted, lambda { order("admin_users.last_name ASC, admin_users.first_name ASC") }
 end
