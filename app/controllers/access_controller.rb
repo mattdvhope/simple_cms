@@ -2,6 +2,8 @@ class AccessController < ApplicationController
 
   layout 'admin'
 
+  before_action :confirm_logged_in, :except => [:login, :attempt_login, :logout]
+
   def index
     # displays text & links; no business to do here
   end
@@ -19,7 +21,7 @@ class AccessController < ApplicationController
     end
     if authorized_user # the object returned above counts as being 'true' here
       # mark user as logged in
-      session[:user_id] = authorized_user.id # we set this session id which goes in the user's 'super cookie' on the user's browser, & then with each request, they'll be sending us that session id again; if they're savvy, they'll be able to see their user_id in their cookie, but it wouldn't be modifiable b/c we have that hashed value that ensures that cookies can't be tampered with in config/initializers/secret_token.rb. On subsequent pages, we'll be able check for this user_id (like a hand-stamp) to make sure that they're authorized to view the pages; to make sure that they have previously authenticated themselves.
+      session[:user_id] = authorized_user.id # we set this session id which goes in the user's 'super cookie' on the user's browser, & then with each request, they'll be sending us that session id again; if they're savvy, they'll be able to see their user_id in their cookie, but it wouldn't be modifiable b/c we have that hashed value which ensures that cookies can't be tampered with in config/initializers/secret_token.rb. On subsequent pages, we'll be able check for this user_id (like a hand-stamp) to make sure that they're authorized to view the pages; to make sure that they have previously authenticated themselves.
 
       session[:username] = authorized_user.username # Let's use this username for convenience so we don't always have to go back to the db to get their username again.
       flash[:notice] = "You are now logged in."
