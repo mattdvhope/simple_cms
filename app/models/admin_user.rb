@@ -52,6 +52,8 @@ class AdminUser < ActiveRecord::Base
 
   def name
     "#{first_name} #{last_name}"
+    # Or: first_name + ' ' + last_name
+    # Or: [first_name, last_name].join(' ')
   end
 
   # Errors not related to a specific attribute
@@ -63,5 +65,5 @@ class AdminUser < ActiveRecord::Base
   end
 
   # SCOPES
-  scope :sorted, lambda { order("admin_users.last_name ASC, admin_users.first_name ASC") }
+  scope :sorted, lambda { order("admin_users.last_name ASC, admin_users.first_name ASC") } # I actually didn't have to disambiguate these attributes b/c right now there's only one thing called 'last_name' & 'first_name' ; I could have left out 'admin_users.'
 end

@@ -9,6 +9,9 @@ gem 'mysql2'
 # pry
 gem "pry-rails", "~> 0.3.2"
 
+# will manage objects with positions
+gem "acts_as_list", "~> 0.4.0"
+
 # Use SCSS for stylesheets
 # gem 'sass-rails', '~> 4.0.0'
 

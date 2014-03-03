@@ -6,6 +6,14 @@ class Page < ActiveRecord::Base
   has_and_belongs_to_many :editors, :class_name => "AdminUser"
   has_many :sections
 
+  # GEM
+  acts_as_list :scope => :subject # this will add in all that funtionality of the 'acts_as_list' Ruby gem, providing intelligence about how to deal with the row position of an object in a table.
+                # the :scope above tells this page that its position is only within a particular subject; not in a position compared to ALL pages; thus having multiple number 1's (or 2's, etc) will not create a conflict, because it will check for positions based on thes subject.id
+
+  # CALLBACKS
+  before_validation :add_default_permalink # This says: "If the user does not provide me with a permalink, I will provide one for them."  I'll do this BEFORE the validations take over (b/c the validations are looking for 'validates_presence_of' and 'validates_length_of')!
+  after_save :touch_subject # this is going to happen for both 'create' and 'update'.
+
   # VALIDATIONS
   validates_presence_of :name # order of validations on the lines is important
   validates_length_of :name, maximum: 255
@@ -20,5 +28,19 @@ class Page < ActiveRecord::Base
   scope :invisible, lambda { where(visible: false) } # I can call page.invisible and I can get my invisible pages.
   scope :sorted, lambda { order("pages.position ASC") }
   scope :newest_first, lambda { order("pages.created_at DESC") }
+
+  private
+
+    def add_default_permalink
+      if permalink.blank?
+        self.permalink = "#{id}-#{name.parameterize}" # Whenever you're setting an attribute in a Model, it's always a good idea to use 'self.' before the attribute.
+      end                       # 'parameterize' is going to take this name string and turn it into something that is suitable for use in the URL (the name with dashes, all lowercase, removes all bad symbols).
+    end
+
+    def touch_subject
+      # touch is similar to:
+      # subject.update_attribute(:updated_at, Time.now) <--updating the attribute, "updated_at" & setting it to Time.now ; will update the timestamp for the subject ; anytime this page is updated, let's ALSO update the subject at the same time
+      subject.touch
+    end
 
 end

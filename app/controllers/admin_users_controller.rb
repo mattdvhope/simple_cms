@@ -13,8 +13,8 @@ class AdminUsersController < ApplicationController
   end
 
   def create
-# binding.pry
     @admin_user = AdminUser.new(admin_users_params)
+binding.pry
     if @admin_user.save
       flash[:notice] = "User created successfully"
       redirect_to(action: 'index')

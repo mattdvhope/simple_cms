@@ -1,6 +1,6 @@
 SimpleCms::Application.routes.draw do
 
-  root "demo#index"
+  root "access#login"
 
   get 'admin', :to => "access#index"
 

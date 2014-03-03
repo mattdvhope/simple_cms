@@ -2,14 +2,14 @@
 
 <%= link_to("<< Back to Menu", {controller: 'access', action: 'index'}, :class => 'back-link') %>
 
-<div><%= pluralize(@admin_users.size, 'admin user') %> found</div>
-
 <div class="admin_user index">
   <h2>Users Menu</h2>
 
-  <%= link_to(image_tag('plus_sign.png', size:'11x11', alt: '+') + " Add New User", {action: 'new'}, :class => 'action new') %>
+  <%= link_to(image_tag('plus_sign.png', size:'11x11', alt: '+') + " Add New Admin User", {action: 'new'}, :class => 'action new') %>
 
-  <table class="listing" summary="User list">
+  <div><%= pluralize(@admin_users.size, 'admin user') %> found</div>
+
+  <table class="listing" summary="Admin users list">
     <tr>
       <th>Username</th>
       <th>Name</th>
@@ -17,7 +17,7 @@
       <th>Actions</th>
     </tr>
     <% @admin_users.each do |user| %>
-    <tr>
+    <tr class="<%= cycle('odd', 'even') %>">
       <td><%= user.username %></td>
       <td><%= user.name %></td>
       <td><%= mail_to(user.email) %></td>

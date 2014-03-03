@@ -3,6 +3,8 @@ class Subject < ActiveRecord::Base
   # RELATIONSHIPS
   has_many :pages
 
+  acts_as_list # this will add in all that funtionality of the 'acts_as_list' Ruby gem, providing intelligence about how to deal with the row position of an object in a table.
+
   # VALIDATIONS
   # Don't need to validate (in most cases):
   #   ids, foreign keys, timestamps, booleans, counters
