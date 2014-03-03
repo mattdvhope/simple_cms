@@ -13,6 +13,7 @@ class Page < ActiveRecord::Base
   # CALLBACKS
   before_validation :add_default_permalink # This says: "If the user does not provide me with a permalink, I will provide one for them."  I'll do this BEFORE the validations take over (b/c the validations are looking for 'validates_presence_of' and 'validates_length_of')!
   after_save :touch_subject # this is going to happen for both 'create' and 'update'.
+  after_destroy :delete_related_sections # We'll leave this turned off for now.
 
   # VALIDATIONS
   validates_presence_of :name # order of validations on the lines is important
@@ -41,6 +42,14 @@ class Page < ActiveRecord::Base
       # touch is similar to:
       # subject.update_attribute(:updated_at, Time.now) <--updating the attribute, "updated_at" & setting it to Time.now ; will update the timestamp for the subject ; anytime this page is updated, let's ALSO update the subject at the same time
       subject.touch
+    end
+
+    def delete_related_sections # With this, if we delete a page, we'll be sure to also delete all the sections in it/related to it.
+      self.sections.each do |section|
+        # Or perhaps instead of destroy, you would
+        # move them to a another page.
+        # section.destroy
+      end      
     end
 
 end
