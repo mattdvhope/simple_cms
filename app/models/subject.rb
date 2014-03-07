@@ -3,11 +3,11 @@ class Subject < ActiveRecord::Base
   # RELATIONSHIPS
   # We could delete related pages automatically
   # whenever a subject is deleted, using..
-  # has_many :pages, :dependent => :destroy <-- This deletes everything in the tree below it.
+  # has_many :pages, :dependent => :destroy <-- This deletes everything in the tree below it. The ':dependent => :destroy' option adds the callback 'after_destroy' to the 'has_many' relationship.
   has_many :pages
 
   acts_as_list # this will add in all that funtionality of the 'acts_as_list' Ruby gem, providing intelligence about how to deal with the row position of an object in a table.
-
+                            # 'acts_as_list' requires the 'position' column to work
   # VALIDATIONS
   # Don't need to validate (in most cases):
   #   ids, foreign keys, timestamps, booleans, counters

@@ -1,7 +1,8 @@
 SimpleCms::Application.routes.draw do
 
-  root "access#login"
-
+  root "public#index"
+            # :permalink is the name of the page
+  get 'show/:permalink', :to => 'public#show' # Anytime it sees 'show' followed by something else after it (:permalink here), 
   get 'admin', :to => "access#index"
 
   # get "demo/index"

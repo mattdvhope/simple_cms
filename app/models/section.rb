@@ -7,7 +7,7 @@ class Section < ActiveRecord::Base
 
   # GEM
   acts_as_list scope: :page # this will add in all that funtionality of the 'acts_as_list' Ruby gem, providing intelligence about how to deal with the row position of an object in a table.
-
+                            # 'acts_as_list' requires the 'position' column to work
   # CALLBACKS
   after_save :touch_page
 
