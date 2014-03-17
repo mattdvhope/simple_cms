@@ -26,7 +26,22 @@ class DemoController < ApplicationController
   end
 
   def escape_output
-    
+  end
+
+  def make_error
+    # My guesses for the 3 most common errors:
+    # render(:text => "test" # syntax error
+    # render(:text => @something.upcase) # undefined method
+    render(:text => "1" + 1) # can't convert type
+  end
+
+  def logging # These are messages to the logger (../config/environments/development.rb).
+    logger.debug("This is debug.")
+    logger.info("This is info.")
+    logger.warn("This is warn.") # If ../config/environments/development.rb has 'config.log_level = :warn' in it, in the rails console, we'll see 'This is warn.', 'This is error.', 'This is fatal.', but not 'This is debug.' or 'This is info.'.
+    logger.error("This is error.")
+    logger.fatal("This is fatal.")
+    render(:text => 'Logged!')
   end
 
 end

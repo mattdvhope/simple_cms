@@ -26,4 +26,7 @@ SimpleCms::Application.configure do
   # This option may cause significant delays in view rendering with a large
   # number of complex assets.
   config.assets.debug = true
+
+  config.log_level = :debug # this is actually set by default in :debug, but I had set it this way for the exercise
+
 end
